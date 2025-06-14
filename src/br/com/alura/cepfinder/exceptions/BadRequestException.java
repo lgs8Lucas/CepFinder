@@ -1,4 +1,4 @@
-package br.com.alura.cepfinder.services;
+package br.com.alura.cepfinder.exceptions;
 
 public class BadRequestException extends RuntimeException {
     private String msg;

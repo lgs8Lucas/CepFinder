@@ -1,14 +1,15 @@
 package br.com.alura.cepfinder;
 
 import br.com.alura.cepfinder.models.Address;
-import br.com.alura.cepfinder.services.BadRequestException;
+import br.com.alura.cepfinder.exceptions.BadRequestException;
 import br.com.alura.cepfinder.services.ViacepRequestService;
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -17,6 +18,7 @@ import java.util.Scanner;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
+        Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).setPrettyPrinting().create(); // Transforma as keys em upperCamelCase
         ViacepRequestService viacep = new ViacepRequestService();
         Scanner sc = new Scanner(System.in);
         String res;
@@ -49,6 +51,19 @@ public class Main {
             System.out.print(address.getZip() + "   ");
         }
         System.out.println("]");
+
+        System.out.print("\nVocê deseja salvar os CEP's? [S/N]: ");
+        res = sc.nextLine();
+        if (!res.toLowerCase().contains("n")) {
+            // Salva em um arquivo
+
+
+            File file = new File("zips.json");
+            FileWriter fw = new FileWriter(file);
+            fw.write(gson.toJson(addresses));
+            fw.close();
+        }
+        System.out.println("Programa finalizado com sucesso!");
 
 
     }

@@ -1,8 +1,8 @@
 package br.com.alura.cepfinder.services;
 
+import br.com.alura.cepfinder.exceptions.BadRequestException;
 import br.com.alura.cepfinder.models.Address;
 import br.com.alura.cepfinder.models.AddressViaCep;
-import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
