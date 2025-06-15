@@ -2,6 +2,7 @@ package br.com.alura.cepfinder;
 
 import br.com.alura.cepfinder.models.Address;
 import br.com.alura.cepfinder.exceptions.BadRequestException;
+import br.com.alura.cepfinder.services.FileGeneratorService;
 import br.com.alura.cepfinder.services.ViacepRequestService;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
@@ -18,7 +19,6 @@ import java.util.Scanner;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
-        Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).setPrettyPrinting().create(); // Transforma as keys em upperCamelCase
         ViacepRequestService viacep = new ViacepRequestService();
         Scanner sc = new Scanner(System.in);
         String res;
@@ -26,6 +26,7 @@ public class Main {
         System.out.println("Bem vindo ao CEP-Finder");
         System.out.print("Digite o cep que você deseja buscar (ou sair para sair): ");
         res = sc.nextLine();
+        FileGeneratorService file = new FileGeneratorService("zips.json");
 
         while (!res.contains("sair")) {
             try {
@@ -56,12 +57,7 @@ public class Main {
         res = sc.nextLine();
         if (!res.toLowerCase().contains("n")) {
             // Salva em um arquivo
-
-
-            File file = new File("zips.json");
-            FileWriter fw = new FileWriter(file);
-            fw.write(gson.toJson(addresses));
-            fw.close();
+            file.saveAddresses(addresses);
         }
         System.out.println("Programa finalizado com sucesso!");
 
